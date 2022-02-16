@@ -32,6 +32,7 @@ struct ContentView: View {
                                         .font(.subheadline)
                                 }
                                 Spacer()
+                                
                                 Image(systemName: "star.fill")
                                     .foregroundColor(item.favourites == true ? .red : .white)
                             }
