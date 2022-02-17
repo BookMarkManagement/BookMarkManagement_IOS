@@ -11,6 +11,8 @@
 		2526D96827BE97E400A844E1 /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96627BE97E400A844E1 /* FolderCardView.swift */; };
 		2526D96A27BEB36600A844E1 /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96927BEB36600A844E1 /* FolderListView.swift */; };
 		2526D96B27BEB36600A844E1 /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96927BEB36600A844E1 /* FolderListView.swift */; };
+		2526D96D27BED46700A844E1 /* FolderCategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96C27BED46700A844E1 /* FolderCategoryMenuView.swift */; };
+		2526D96E27BED46700A844E1 /* FolderCategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96C27BED46700A844E1 /* FolderCategoryMenuView.swift */; };
 		257960F527BBFC6900194275 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257960F427BBFC6900194275 /* Tests_iOS.swift */; };
 		257960F727BBFC6900194275 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257960F627BBFC6900194275 /* Tests_iOSLaunchTests.swift */; };
 		2579610127BBFC6900194275 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2579610027BBFC6900194275 /* Tests_macOS.swift */; };
@@ -45,6 +47,7 @@
 /* Begin PBXFileReference section */
 		2526D96627BE97E400A844E1 /* FolderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCardView.swift; sourceTree = "<group>"; };
 		2526D96927BEB36600A844E1 /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
+		2526D96C27BED46700A844E1 /* FolderCategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCategoryMenuView.swift; sourceTree = "<group>"; };
 		257960DC27BBFC6700194275 /* BookMarkManagement_IOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkManagement_IOSApp.swift; sourceTree = "<group>"; };
 		257960DD27BBFC6700194275 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		257960DE27BBFC6900194275 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -112,6 +115,7 @@
 				2579611827BC123500194275 /* MemoryManag_Model.swift */,
 				2526D96627BE97E400A844E1 /* FolderCardView.swift */,
 				2526D96927BEB36600A844E1 /* FolderListView.swift */,
+				2526D96C27BED46700A844E1 /* FolderCategoryMenuView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -316,6 +320,7 @@
 				2579610627BBFC6900194275 /* ContentView.swift in Sources */,
 				2579611927BC123500194275 /* MemoryManag_Model.swift in Sources */,
 				2579610427BBFC6900194275 /* BookMarkManagement_IOSApp.swift in Sources */,
+				2526D96D27BED46700A844E1 /* FolderCategoryMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +333,7 @@
 				2579610727BBFC6900194275 /* ContentView.swift in Sources */,
 				2579611A27BC123500194275 /* MemoryManag_Model.swift in Sources */,
 				2579610527BBFC6900194275 /* BookMarkManagement_IOSApp.swift in Sources */,
+				2526D96E27BED46700A844E1 /* FolderCategoryMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
