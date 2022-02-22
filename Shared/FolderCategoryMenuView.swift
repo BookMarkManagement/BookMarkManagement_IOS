@@ -8,20 +8,41 @@
 import SwiftUI
 
 struct FolderCategoryMenuView: View {
+    var Category : [String]
+    var FolderdataAccess : FolderdataAccessories
     var body: some View {
+        GeometryReader { geometry in
+//            print(self.FolderdataAccess.showMenu,"Menu")
         VStack(alignment: .leading) {
-            HStack {
-                Text("Profile")
-                    .foregroundColor(.gray)
-                    .font(.headline)
+            ForEach(Category, id: \.self) { item in
+                HStack {
+                    Text(item)
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                }
+                .onTapGesture {
+//                    print("Tapperd",item,FolderdataAccess.categories)
+                    FolderdataAccess.results =   FolderdataAccess.GetFilteredFolders(FolderData: FolderdataAccess.results, Category: item)
+                    print(FolderdataAccess.results.count,"Folder results")
+                    FolderdataAccess.showMenu.toggle()
+                    print("Inside",FolderdataAccess.showMenu)
+                }
+                .padding(.top, 10)
             }
-            .padding(.top, 100)
+            Spacer()
         }
+        .padding()
+//        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(width: geometry.size.width, height: geometry.size.height)
+        .background(Color(red: 32/255, green: 32/255, blue: 32/255).edgesIgnoringSafeArea(.all))
+//        .edgesIgnoringSafeArea(.bottom)
+//        .ignoresSafeArea()
+    }
     }
 }
 
 struct FolderCategoryMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        FolderCategoryMenuView()
+        FolderCategoryMenuView(Category: [],FolderdataAccess: FolderdataAccessories())
     }
 }

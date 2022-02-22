@@ -10,48 +10,80 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var results =  [FolderValue]()
-    let FolderdataAccess = FolderdataAccessories()
+    @State var showMenu = false
+    @StateObject var FolderdataAccess = FolderdataAccessories()
+//    @State var FolderdataAccess;.showMenu = false
     
     init(){
-        Theme.navigationBarColors(background: .purple, titleColor: .white)
+//        Theme.navigationBarColors(background: .systemIndigo, titleColor: .white)
     }
     
     var body: some View {
-        if #available(iOS 15.0, *) {
-            //            Text("Collection List").fontWeight(.bold).font(.title).padding()
-            NavigationView {
-                TabView{
-                    FolderListView(FolderData: results)
-                        .onAppear(perform: loadData)
-                        .tabItem {
-                            Image(systemName: "list.dash")
-                            Text("List view")
-                        }
-                    
-                    Text("Add New Collection View").tabItem{
-                        Image(systemName: "folder.fill.badge.plus")
-                        Text("Add Folder")
+        let drag = DragGesture()
+            .onEnded {
+                if $0.translation.width < -100 {
+                    withAnimation {
+                        self.FolderdataAccess.showMenu = false
                     }
-                    FolderCardView(FolderData: results)
-                        .tabItem {
-                            Image(systemName: "square.grid.2x2")
-                            Text("Grid view")
-                        }
                 }
-                .navigationTitle("Collection Dtails")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarItems(leading: (
-                    Button(action: {
-                        withAnimation {
-                            //                                            self.showMenu.toggle()
-                        }
-                    }) {
-                        Image(systemName: "line.horizontal.3")
-                            .imageScale(.large)
-                    }
-                ))
             }
-            
+        if #available(iOS 15.0, *) {
+            GeometryReader { geometry in
+//                NavigationView {
+                    ZStack(alignment: .leading){
+                        ScrollView{
+                            FolderHeaderView(FolderdataAccess: FolderdataAccess)
+                        TabView{
+                            FolderListView(FolderData: FolderdataAccess.results)
+                                .tabItem {
+                                    Image(systemName: "list.dash")
+                                    Text("List view")
+                                }
+                            
+                            FolderHeaderView(FolderdataAccess: FolderdataAccess).tabItem{
+                                Image(systemName: "folder.fill.badge.plus")
+                                Text("Add Folder")
+                            }
+                            FolderCardView(FolderData: FolderdataAccess.results)
+                                .tabItem {
+                                    Image(systemName: "square.grid.2x2")
+                                    Text("Grid view")
+                                }
+                        }
+                        .onAppear(perform: loadData)
+                        .frame(
+                            width: geometry.size.width ,
+                                   height: geometry.size.height
+                               )
+                        }
+                        .ignoresSafeArea( edges: .top)
+                        .offset(x: self.FolderdataAccess.showMenu == true ? geometry.size.width/2 : 0)
+                        .disabled(self.FolderdataAccess.showMenu ? true : false)
+                        //                        .navigationTitle("Collection Dtails")
+                        //                        .navigationBarTitleDisplayMode(.inline)
+                        //                        .navigationBarItems(leading: (
+                        //                            Button(action: {
+                        //                                withAnimation {
+                        //                                    print(self.FolderdataAccess.showMenu,"Menu")
+                        //                                    self.showMenu.toggle()
+                        //                                    self.FolderdataAccess.showMenu.toggle()
+                        //                                    print(self.FolderdataAccess.showMenu,"Menu")
+                        //                                }
+                        //                            }) {
+                        //                                Image(systemName: "line.horizontal.3")
+                        //                                    .imageScale(.large)
+                        //                            }
+                        //                        ))
+                        if self.FolderdataAccess.showMenu == true {
+                            FolderCategoryMenuView(Category: FolderdataAccess.categories, FolderdataAccess: FolderdataAccess)
+                                .frame(width: geometry.size.width/2,height: geometry.size.height)
+//                                .edgesIgnoringSafeArea(.bottom)
+//                                .ignoresSafeArea(edges:.bottom)
+                        }
+                    }
+                    .gesture(drag)
+//                }
+            }
         }
     }
     
@@ -70,10 +102,11 @@ struct ContentView: View {
                 //                print(data)
                 if let decodedResponse = try? JSONDecoder().decode(FolderData.self, from: data) {
                     DispatchQueue.main.async {
-                        //                        print(decodedResponse)
                         self.results = decodedResponse.value
                         self.FolderdataAccess.categories = self.FolderdataAccess.GetUniqueFolderCategories(FolderData: self.results)
-                        print(self.FolderdataAccess.categories)
+                        self.FolderdataAccess.results = self.results
+                        self.FolderdataAccess.FullData = self.results
+//                        print(self.FolderdataAccess.categories)
                     }
                     return
                 }
