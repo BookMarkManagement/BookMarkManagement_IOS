@@ -34,7 +34,7 @@ struct ContentView: View {
                         ScrollView{
                             FolderHeaderView(FolderdataAccess: FolderdataAccess)
                         TabView{
-                            FolderListView(FolderData: FolderdataAccess.results)
+                            FolderListView(FolderData: FolderdataAccess.results, FolderdataAccess: FolderdataAccess)
                                 .tabItem {
                                     Image(systemName: "list.dash")
                                     Text("List view")
@@ -106,6 +106,7 @@ struct ContentView: View {
                         self.FolderdataAccess.categories = self.FolderdataAccess.GetUniqueFolderCategories(FolderData: self.results)
                         self.FolderdataAccess.results = self.results
                         self.FolderdataAccess.FullData = self.results
+                        self.FolderdataAccess.GetFolderDetails()
 //                        print(self.FolderdataAccess.categories)
                     }
                     return

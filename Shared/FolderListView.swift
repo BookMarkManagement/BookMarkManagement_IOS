@@ -10,52 +10,45 @@ import SwiftUI
 @available(iOS 15.0, *)
 struct FolderListView: View {
     var FolderData : [FolderValue]
+    @StateObject var FolderdataAccess = FolderdataAccessories()
     @State private var searchText = ""
     var body: some View {
         NavigationView {
-            //            VStack{
-            List(FolderData,id: \.ID){
-                item in VStack(alignment: .leading){
-                    HStack(alignment: .center, spacing: 10){
-                        if #available(iOS 15.0, *) {
-                            AsyncImage(url: URL(string: item.imageurl)) { image in
-                                image.resizable()
-                            } placeholder: {
-                                Color.red
+            List{
+                ForEach(FolderdataAccess.FolderData, id: \.category) { item in
+                    Section(header: Text(item.category).font(.headline).fontWeight(.bold)) {
+                        ForEach(item.Items, id: \.ID) {    item in VStack(alignment: .leading){
+                            HStack(alignment: .center, spacing: 10){
+                                AsyncImage(url: URL(string: item.imageurl)) { image in
+                                    image.resizable()
+                                } placeholder: {
+                                    Color.red
+                                }
+                                .frame(width: 50, height: 50)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                HStack(alignment: .center){
+                                    VStack(alignment: .leading, spacing: 5){
+                                        Text(item.folder_name)
+                                            .font(.headline)
+                                        Text("\(item.filecount) Files")
+                                            .font(.subheadline)
+                                    }
+                                    Spacer()
+                                    
+                                    Image(systemName: "star.fill")
+                                        .foregroundColor(item.favourites == true ? .red : .white)
+                                }
                             }
-                            .frame(width: 50, height: 50)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                        } else {
-                            // Fallback on earlier versions
                         }
-                        HStack(alignment: .center){
-                            VStack(alignment: .leading, spacing: 5){
-                                Text(item.folder_name)
-                                    .font(.headline)
-                                Text("File Count: \(item.filecount)")
-                                    .font(.subheadline)
-                            }
-                            Spacer()
-                            
-                            Image(systemName: "star.fill")
-                                .foregroundColor(item.favourites == true ? .red : .white)
                         }
                     }
-//                    .listRowSeparator(.hidden)
                 }
-                .listRowSeparator(.hidden)
             }
-            .listStyle(.plain)
-//            .listRowSeparator(.hidden)
-            //                Spacer()
-            //    }
-            
             .navigationTitle("Collection Details").font(.headline)
             .navigationBarTitleDisplayMode(.inline)
-            
         }
-        
-        .searchable(text: $searchText)
+        .listStyle(SidebarListStyle())
+        .searchable(text: $FolderdataAccess.FolderSearchString)
     }
 }
 
