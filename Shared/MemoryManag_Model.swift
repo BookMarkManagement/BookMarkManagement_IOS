@@ -37,18 +37,45 @@ class FolderdataAccessories : ObservableObject{
     @Published var FolderData = [FolderDataFinal]()
     var FolderDataAll = [FolderDataFinal]()
     @Published var FolderSearchString : String = ""
+    @Published var SelectedCategory : String = ""
     
-    var filteredColors: [FolderDataFinal] { // 1
+     var FolderData1: [FolderDataFinal] { // 1
         if self.FolderSearchString.isEmpty {
+            self.FolderData = self.FolderDataAll
             return self.FolderDataAll
             } else {
-                return self.FolderDataAll.filter { item in
+                let filtered = self.FolderDataAll.filter { item in
                     return  item.category == self.FolderSearchString
                 }
+                self.FolderData = filtered
+                print("reaced",self.FolderSearchString)
+                return filtered
             }
     }
     
-   
+    func GetSearchedItemsbyName(Folder: String)->[FolderDataFinal]{
+        var item = FolderDataFinal(category: "", Items: [])
+        var FolderData : [FolderDataFinal] = []
+        var Categories : [String] = []
+        let filtered = self.FullData.filter { item in
+            return  item.folder_name.localizedCaseInsensitiveContains(Folder)
+        }
+        
+        for item in filtered {
+            Categories.append(item.maincategory)
+        }
+        
+        let newCat = Array(Set(Categories))
+        print(newCat,filtered,"sss",self.FullData.count,Folder)
+        for cat in newCat {
+            item.category = cat
+            item.Items = filtered.filter { item in
+                return  item.maincategory == cat
+            }
+            FolderData.append(item)
+        }
+        return FolderData
+    }
     
     func GetFolderDetails(){
         var item = FolderDataFinal(category: "", Items: [])

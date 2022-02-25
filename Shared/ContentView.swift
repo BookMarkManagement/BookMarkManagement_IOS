@@ -31,7 +31,7 @@ struct ContentView: View {
             GeometryReader { geometry in
 //                NavigationView {
                     ZStack(alignment: .leading){
-                        ScrollView{
+                        VStack{
                             FolderHeaderView(FolderdataAccess: FolderdataAccess)
                         TabView{
                             FolderListView(FolderData: FolderdataAccess.results, FolderdataAccess: FolderdataAccess)
@@ -40,23 +40,25 @@ struct ContentView: View {
                                     Text("List view")
                                 }
                             
-                            FolderHeaderView(FolderdataAccess: FolderdataAccess).tabItem{
-                                Image(systemName: "folder.fill.badge.plus")
-                                Text("Add Folder")
-                            }
+//                            FolderHeaderView(FolderdataAccess: FolderdataAccess).tabItem{
+//                                Image(systemName: "folder.fill.badge.plus")
+//                                Text("Add Folder")
+//                            }
                             FolderCardView(FolderData: FolderdataAccess.results)
                                 .tabItem {
                                     Image(systemName: "square.grid.2x2")
                                     Text("Grid view")
                                 }
                         }
+//                        .background(Color("FolderBack"))
                         .onAppear(perform: loadData)
-                        .frame(
-                            width: geometry.size.width ,
-                                   height: geometry.size.height
-                               )
+//                        .frame(
+//                            width: geometry.size.width ,
+//                                   height: geometry.size.height
+//                               )
                         }
-                        .ignoresSafeArea( edges: .top)
+                        .background(Color("FolderBack"))
+                        .ignoresSafeArea( edges: .all)
                         .offset(x: self.FolderdataAccess.showMenu == true ? geometry.size.width/2 : 0)
                         .disabled(self.FolderdataAccess.showMenu ? true : false)
                         //                        .navigationTitle("Collection Dtails")

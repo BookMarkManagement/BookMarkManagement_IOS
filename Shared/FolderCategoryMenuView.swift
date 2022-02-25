@@ -23,7 +23,8 @@ struct FolderCategoryMenuView: View {
                 .onTapGesture {
 //                    print("Tapperd",item,FolderdataAccess.categories)
                     FolderdataAccess.FolderData =   FolderdataAccess.GetFilteredFolders( Category: item)
-                    print(FolderdataAccess.FolderData.count,"Folder results")
+                    FolderdataAccess.SelectedCategory = item
+//                    print(FolderdataAccess.FolderData.count,"Folder results")
                     FolderdataAccess.showMenu.toggle()
 //                    print("Inside",FolderdataAccess.showMenu)
                 }
