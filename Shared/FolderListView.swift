@@ -77,9 +77,13 @@ struct FolderListView: View {
         .listStyle(SidebarListStyle())
         .searchable(text: $searchText,    prompt: "Search Folder Name",
                     suggestions: { //1
-            ForEach(FolderdataAccess.FullData, id: \.ID){ item in
-                Text(item.folder_name).searchCompletion(item.folder_name) // 2
-            }
+            ForEach(FolderdataAccess.FullData.filter {item in item.folder_name.localizedCaseInsensitiveContains(searchText) } , id: \.ID) { item in
+                Text(item.folder_name)
+                        .searchCompletion(item.folder_name)
+                }
+//            ForEach(FolderdataAccess.FullData, id: \.ID){ item in
+//                Text(item.folder_name).searchCompletion(item.folder_name).searchCompletion(item.folder_name) // 2
+//            }
 //            for item in FolderdataAccess.FullData {
 //                
 //            }

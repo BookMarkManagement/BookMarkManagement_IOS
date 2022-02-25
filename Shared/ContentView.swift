@@ -16,6 +16,9 @@ struct ContentView: View {
     
     init(){
 //        Theme.navigationBarColors(background: .systemIndigo, titleColor: .white)
+//        UITabBar.appearance().backgroundColor = UIColor(Color("primary"))
+//        UITabBar.appearance().barTintColor = .white
+//        UITabBar.appearance().isTranslucent = false
     }
     
     var body: some View {
