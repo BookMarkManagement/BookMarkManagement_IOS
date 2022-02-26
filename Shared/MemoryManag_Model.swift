@@ -38,6 +38,9 @@ class FolderdataAccessories : ObservableObject{
     var FolderDataAll = [FolderDataFinal]()
     @Published var FolderSearchString : String = ""
     @Published var SelectedCategory : String = ""
+    @Published var EditPressed = false
+    @Published var DeletePressed = false
+    @Published var DeletionCategory = ""
     
      var FolderData1: [FolderDataFinal] { // 1
         if self.FolderSearchString.isEmpty {
@@ -114,6 +117,11 @@ class FolderdataAccessories : ObservableObject{
         return filtered
     }
     
+    func DeleteFolder(at offsets: IndexSet, from category: Category){
+        print(offsets,"offsets", category)
+//        FolderData.remove(atOffsets: offsets)
+//        print(FolderData)
+    }
     
     //    func loadData() {
     //        guard let url = URL(string: "https://5aa7bb4ftrial-dev-contentmanagement-srv.cfapps.eu10.hana.ondemand.com/content-manag/Folder")

@@ -13,8 +13,12 @@ struct FolderListView: View {
     @StateObject var FolderdataAccess = FolderdataAccessories()
     @State private var searchText = ""
     
-    var FolderData1: [FolderDataFinal] { // 1
+     var FolderData1: [FolderDataFinal] { // 1
         var FolderData : [FolderDataFinal] = []
+         if FolderdataAccess.DeletePressed == true {
+//             var catIndex = self.FolderdataAccess.FolderData.index(where: $0.category == self.FolderdataAccess.DeletionCategory)
+//             print(catIndex,"Index")
+         }
         if searchText.isEmpty && ( FolderdataAccess.SelectedCategory == "" || FolderdataAccess.SelectedCategory == "All" ) {
             //           self.FolderData = self.FolderDataAll
             return self.FolderdataAccess.FolderDataAll
@@ -38,6 +42,12 @@ struct FolderListView: View {
     }
     //    var FolderData1 = FolderdataAccess.FolderData
     
+    func Delete(at offsets: IndexSet, in section: FolderDataFinal){
+        print(offsets,"offsets",section)
+        //        FolderData1.remove(atOffsets: offsets)
+        //        print(FolderData)
+    }
+    
     var body: some View {
         NavigationView {
             List{
@@ -45,6 +55,20 @@ struct FolderListView: View {
                     Section(header: Text(item.category).font(.headline).fontWeight(.bold)) {
                         ForEach(item.Items, id: \.ID) {    item in VStack(alignment: .leading){
                             HStack(alignment: .center, spacing: 10){
+                               
+                                if FolderdataAccess.EditPressed == true  {
+                                    Image(systemName: "minus.circle")
+                                        .foregroundColor(.red)
+                                        .onTapGesture(perform: {
+                                            print(item.folder_name)
+                                            self.searchText = item.folder_name
+                                            self.FolderdataAccess.DeletePressed.toggle()
+//                                            self.FolderdataAccess.DeletionCategory = item.category
+                                        })
+                                    Image(systemName: "pencil.circle.fill")
+                                        .foregroundColor(.gray)
+                                }
+                                
                                 AsyncImage(url: URL(string: item.imageurl)) { image in
                                     image.resizable()
                                 } placeholder: {
@@ -67,27 +91,39 @@ struct FolderListView: View {
                             }
                         }
                         }
+                        .onDelete{self.Delete(at: $0, in : item)}
                     }
                 }
                 //                .listRowBackground(Color("FolderBack"))
             }
             .navigationTitle("Collection Details").font(.headline)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                FolderdataAccess.EditPressed == false ?  Button("Edit") {
+                    print("Edit tapped!")
+                    self.FolderdataAccess.EditPressed.toggle()
+                } :
+                Button("Cancel") {
+                    print("Cancel tapped!")
+                    self.FolderdataAccess.EditPressed.toggle()
+                }
+               
+            }
         }
         .listStyle(SidebarListStyle())
         .searchable(text: $searchText,    prompt: "Search Folder Name",
                     suggestions: { //1
             ForEach(FolderdataAccess.FullData.filter {item in item.folder_name.localizedCaseInsensitiveContains(searchText) } , id: \.ID) { item in
                 Text(item.folder_name)
-                        .searchCompletion(item.folder_name)
-                }
-//            ForEach(FolderdataAccess.FullData, id: \.ID){ item in
-//                Text(item.folder_name).searchCompletion(item.folder_name).searchCompletion(item.folder_name) // 2
-//            }
-//            for item in FolderdataAccess.FullData {
-//                
-//            }
-           
+                    .searchCompletion(item.folder_name)
+            }
+            //            ForEach(FolderdataAccess.FullData, id: \.ID){ item in
+            //                Text(item.folder_name).searchCompletion(item.folder_name).searchCompletion(item.folder_name) // 2
+            //            }
+            //            for item in FolderdataAccess.FullData {
+            //
+            //            }
+            
         })
     }
 }
