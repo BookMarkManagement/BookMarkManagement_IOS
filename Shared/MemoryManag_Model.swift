@@ -40,7 +40,7 @@ class FolderdataAccessories : ObservableObject{
     @Published var SelectedCategory : String = ""
     @Published var EditPressed = false
     @Published var DeletePressed = false
-    @Published var DeletionCategory = ""
+    @Published var DeletionID = ""
     
      var FolderData1: [FolderDataFinal] { // 1
         if self.FolderSearchString.isEmpty {
@@ -80,6 +80,17 @@ class FolderdataAccessories : ObservableObject{
         return FolderData
     }
     
+    func DeleteFolder(Index : Int) ->[FolderDataFinal]{
+        print(Index,"inside")
+        print(self.FullData.count,self.FolderData.count,"Count")
+        self.FullData.remove(at: Index)
+//        self.GetFolderDetails()
+        self.FolderData = []
+        self.FolderDataAll = []
+        self.GetFolderDetails()
+        return self.FolderData
+    }
+    
     func GetFolderDetails(){
         var item = FolderDataFinal(category: "", Items: [])
         for category in categories {
@@ -88,6 +99,11 @@ class FolderdataAccessories : ObservableObject{
                 return  item.maincategory == category
             }
             if(category == "All"){
+                continue
+            }
+            if item.Items.count == 0 {
+                let ind = self.categories.firstIndex(where: { $0 ==  category } )!
+                self.categories.remove(at: ind)
                 continue
             }
             self.FolderData.append(item)

@@ -13,13 +13,17 @@ struct FolderListView: View {
     @StateObject var FolderdataAccess = FolderdataAccessories()
     @State private var searchText = ""
     
-     var FolderData1: [FolderDataFinal] { // 1
+    var FolderData1: [FolderDataFinal] { // 1
         var FolderData : [FolderDataFinal] = []
-         if FolderdataAccess.DeletePressed == true {
-//             var catIndex = self.FolderdataAccess.FolderData.index(where: $0.category == self.FolderdataAccess.DeletionCategory)
-//             print(catIndex,"Index")
-         }
-        if searchText.isEmpty && ( FolderdataAccess.SelectedCategory == "" || FolderdataAccess.SelectedCategory == "All" ) {
+        if FolderdataAccess.DeletePressed == true {
+            var folderIndex = self.FolderdataAccess.FullData.firstIndex(where: { $0.ID == FolderdataAccess.DeletionID})!
+            print(self.FolderdataAccess.FullData[folderIndex].folder_name,"Bef del",folderIndex)
+            var newFolderData =  self.FolderdataAccess.DeleteFolder(Index: folderIndex)
+            print(self.FolderdataAccess.FullData.count,"After Del")
+            FolderdataAccess.DeletePressed.toggle()
+            return newFolderData
+            
+        } else if searchText.isEmpty && ( FolderdataAccess.SelectedCategory == "" || FolderdataAccess.SelectedCategory == "All" ) {
             //           self.FolderData = self.FolderDataAll
             return self.FolderdataAccess.FolderDataAll
         } else {
@@ -53,17 +57,18 @@ struct FolderListView: View {
             List{
                 ForEach(FolderData1, id: \.category) { item in
                     Section(header: Text(item.category).font(.headline).fontWeight(.bold)) {
+                        
                         ForEach(item.Items, id: \.ID) {    item in VStack(alignment: .leading){
                             HStack(alignment: .center, spacing: 10){
-                               
+                                
                                 if FolderdataAccess.EditPressed == true  {
                                     Image(systemName: "minus.circle")
                                         .foregroundColor(.red)
                                         .onTapGesture(perform: {
                                             print(item.folder_name)
-                                            self.searchText = item.folder_name
+                                            //                                            self.searchText = item.folder_name
                                             self.FolderdataAccess.DeletePressed.toggle()
-//                                            self.FolderdataAccess.DeletionCategory = item.category
+                                            self.FolderdataAccess.DeletionID = item.ID
                                         })
                                     Image(systemName: "pencil.circle.fill")
                                         .foregroundColor(.gray)
@@ -107,7 +112,7 @@ struct FolderListView: View {
                     print("Cancel tapped!")
                     self.FolderdataAccess.EditPressed.toggle()
                 }
-               
+                
             }
         }
         .listStyle(SidebarListStyle())
