@@ -12,6 +12,9 @@ struct FolderListView: View {
     var FolderData : [FolderValue]
     @StateObject var FolderdataAccess = FolderdataAccessories()
     @State private var searchText = ""
+    @State private var confirmationShown = false
+    @State private var selectedFolder: String = ""
+    @State private var selectedID: String = ""
     
     var FolderData1: [FolderDataFinal] { // 1
         var FolderData : [FolderDataFinal] = []
@@ -65,11 +68,23 @@ struct FolderListView: View {
                                     Image(systemName: "minus.circle")
                                         .foregroundColor(.red)
                                         .onTapGesture(perform: {
-                                            print(item.folder_name)
-                                            //                                            self.searchText = item.folder_name
-                                            self.FolderdataAccess.DeletePressed.toggle()
-                                            self.FolderdataAccess.DeletionID = item.ID
+                                            //                                            self.FolderdataAccess.DeletePressed.toggle()
+                                            //                                            self.FolderdataAccess.DeletionID = item.ID
+                                            selectedID = item.ID
+                                            selectedFolder = item.folder_name
+                                            confirmationShown = true
                                         })
+                                        .alert(isPresented: $confirmationShown) {
+                                            Alert(title: Text("Do you want to Delete \(selectedFolder) ?"), primaryButton: .destructive(Text("Cancel"), action: { // 1
+                                            }),
+                                                  secondaryButton:
+                                                        .default(Text("Ok"), action: {
+                                                self.FolderdataAccess.DeletePressed.toggle()
+                                                self.FolderdataAccess.DeletionID = self.selectedID
+                                            }
+                                                                )
+                                            )}
+                                    
                                     Image(systemName: "pencil.circle.fill")
                                         .foregroundColor(.gray)
                                 }
