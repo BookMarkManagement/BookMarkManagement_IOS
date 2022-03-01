@@ -19,25 +19,35 @@ struct FolderAddView: View {
                 Section(header: Text("Folder Details")) {
                     TextField("Folder Name", text: $FolderData.folder_name)
                         .onAppear(){
-                            FolderData.folder_name = FolderdataAccess.NewFolder.folder_name
+                            if FolderdataAccess.isEditFolder == true {
+                                FolderData.folder_name = FolderdataAccess.NewFolder.folder_name
+                            }
                         }
                     TextField("Category", text: $FolderData.maincategory)
                         .onAppear(){
-                            FolderData.maincategory = FolderdataAccess.NewFolder.maincategory
+                            if FolderdataAccess.isEditFolder == true {
+                                FolderData.maincategory = FolderdataAccess.NewFolder.maincategory
+                            }
                         }
                     
                 }
                 Section(header: Text("Others")) {
                     TextField("Image Url", text: $FolderData.imageurl)
                         .onAppear(){
-                            FolderData.imageurl = FolderdataAccess.NewFolder.imageurl
+                            if FolderdataAccess.isEditFolder == true {
+                                FolderData.imageurl = FolderdataAccess.NewFolder.imageurl
+                            }
+                            
                         }
                     Toggle(isOn: $FolderData.favourites)
                     {
                         Text("Add to Favourities")
                     }
                     .onAppear(){
-                        FolderData.favourites = FolderdataAccess.NewFolder.favourites
+                        if FolderdataAccess.isEditFolder == true {
+                            FolderData.favourites = FolderdataAccess.NewFolder.favourites
+                        }
+                      
                     }
                 }
                 
@@ -47,12 +57,14 @@ struct FolderAddView: View {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button("Cancel") {
                         print("Cancel tapped!")
+                        FolderdataAccess.isEditFolder = false
                         presentationMode.wrappedValue.dismiss()
                     }
                     Button("Save") {
                         print("Save tapped!")
+                        FolderdataAccess.isNewFolder.toggle()
                     }
-                    .disabled(FolderdataAccess.NewFolder.folder_name.isEmpty || FolderdataAccess.NewFolder.maincategory.isEmpty)
+                    .disabled(FolderData.folder_name.isEmpty || FolderData.maincategory.isEmpty)
                 }
               
                 
