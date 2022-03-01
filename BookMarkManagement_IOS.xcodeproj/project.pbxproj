@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		252160AA27CE17BE0005650F /* FolderAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252160A927CE17BE0005650F /* FolderAddView.swift */; };
+		252160AB27CE17BE0005650F /* FolderAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252160A927CE17BE0005650F /* FolderAddView.swift */; };
 		2526D96727BE97E400A844E1 /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96627BE97E400A844E1 /* FolderCardView.swift */; };
 		2526D96827BE97E400A844E1 /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96627BE97E400A844E1 /* FolderCardView.swift */; };
 		2526D96A27BEB36600A844E1 /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D96927BEB36600A844E1 /* FolderListView.swift */; };
@@ -47,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		252160A927CE17BE0005650F /* FolderAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderAddView.swift; sourceTree = "<group>"; };
 		2526D96627BE97E400A844E1 /* FolderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCardView.swift; sourceTree = "<group>"; };
 		2526D96927BEB36600A844E1 /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
 		2526D96C27BED46700A844E1 /* FolderCategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCategoryMenuView.swift; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 				2526D96927BEB36600A844E1 /* FolderListView.swift */,
 				2526D96C27BED46700A844E1 /* FolderCategoryMenuView.swift */,
 				2576A83227C538D3008A70BC /* FolderHeaderView.swift */,
+				252160A927CE17BE0005650F /* FolderAddView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -325,6 +329,7 @@
 				2579610627BBFC6900194275 /* ContentView.swift in Sources */,
 				2579611927BC123500194275 /* MemoryManag_Model.swift in Sources */,
 				2579610427BBFC6900194275 /* BookMarkManagement_IOSApp.swift in Sources */,
+				252160AA27CE17BE0005650F /* FolderAddView.swift in Sources */,
 				2526D96D27BED46700A844E1 /* FolderCategoryMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +344,7 @@
 				2579610727BBFC6900194275 /* ContentView.swift in Sources */,
 				2579611A27BC123500194275 /* MemoryManag_Model.swift in Sources */,
 				2579610527BBFC6900194275 /* BookMarkManagement_IOSApp.swift in Sources */,
+				252160AB27CE17BE0005650F /* FolderAddView.swift in Sources */,
 				2526D96E27BED46700A844E1 /* FolderCategoryMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

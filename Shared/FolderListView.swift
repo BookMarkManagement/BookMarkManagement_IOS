@@ -15,6 +15,9 @@ struct FolderListView: View {
     @State private var confirmationShown = false
     @State private var selectedFolder: String = ""
     @State private var selectedID: String = ""
+    @State private var isPresented = false
+    @State private var FolderEdit = FolderValue(ID: "", folder_name: "", email: "karthi.hifi@gmail.com", maincategory: "", lastupdate: "", imageurl: "", favourites: false, visitedtimes: 0, filecount: 0, lastvisited: "")
+    
     
     var FolderData1: [FolderDataFinal] { // 1
         var FolderData : [FolderDataFinal] = []
@@ -68,8 +71,6 @@ struct FolderListView: View {
                                     Image(systemName: "minus.circle")
                                         .foregroundColor(.red)
                                         .onTapGesture(perform: {
-                                            //                                            self.FolderdataAccess.DeletePressed.toggle()
-                                            //                                            self.FolderdataAccess.DeletionID = item.ID
                                             selectedID = item.ID
                                             selectedFolder = item.folder_name
                                             confirmationShown = true
@@ -87,6 +88,13 @@ struct FolderListView: View {
                                     
                                     Image(systemName: "pencil.circle.fill")
                                         .foregroundColor(.gray)
+                                        .onTapGesture(perform: {
+                                            FolderEdit = item
+                                            self.FolderdataAccess.NewFolder = self.FolderEdit
+                                            print(self.FolderdataAccess.NewFolder.folder_name,"Edit",self.FolderEdit.folder_name,"selectedFolder")
+                                            self.FolderdataAccess.isEditFolder.toggle()
+                                            isPresented.toggle()
+                                        })
                                 }
                                 
                                 AsyncImage(url: URL(string: item.imageurl)) { image in
@@ -116,18 +124,32 @@ struct FolderListView: View {
                 }
                 //                .listRowBackground(Color("FolderBack"))
             }
-            .navigationTitle("Collection Details").font(.headline)
-            .navigationBarTitleDisplayMode(.inline)
+//            .fullScreenCover(isPresented: $isPresented, content: FolderAddView.init)
+            .fullScreenCover(isPresented: $isPresented){
+                FolderAddView(FolderdataAccess : FolderdataAccess)
+            }
+            .navigationTitle("Collection Details")
+//            .font(.headline)
+//            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                FolderdataAccess.EditPressed == false ?  Button("Edit") {
-                    print("Edit tapped!")
-                    self.FolderdataAccess.EditPressed.toggle()
-                } :
-                Button("Cancel") {
-                    print("Cancel tapped!")
-                    self.FolderdataAccess.EditPressed.toggle()
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button("Add") {
+                        print("Edit tapped!")
+                        self.FolderdataAccess.isNewFolder.toggle()
+                        isPresented.toggle()
+                    }
+                    FolderdataAccess.EditPressed == false ?  Button("Edit") {
+                        print("Edit tapped!")
+//                        self.FolderdataAccess.NewFolder = FolderEdit
+//                        print(self.FolderdataAccess.NewFolder,"Edit",FolderEdit)
+//                        self.FolderdataAccess.NewFolder.folder_name =
+                        self.FolderdataAccess.EditPressed.toggle()
+                    } :
+                    Button("Cancel") {
+                        print("Cancel tapped!")
+                        self.FolderdataAccess.EditPressed.toggle()
+                    }
                 }
-                
             }
         }
         .listStyle(SidebarListStyle())
@@ -137,13 +159,6 @@ struct FolderListView: View {
                 Text(item.folder_name)
                     .searchCompletion(item.folder_name)
             }
-            //            ForEach(FolderdataAccess.FullData, id: \.ID){ item in
-            //                Text(item.folder_name).searchCompletion(item.folder_name).searchCompletion(item.folder_name) // 2
-            //            }
-            //            for item in FolderdataAccess.FullData {
-            //
-            //            }
-            
         })
     }
 }

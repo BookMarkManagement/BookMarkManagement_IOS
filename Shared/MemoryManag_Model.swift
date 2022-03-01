@@ -42,6 +42,10 @@ class FolderdataAccessories : ObservableObject{
     @Published var DeletePressed = false
     @Published var DeletionID = ""
     
+    @Published var NewFolder = FolderValue(ID: "", folder_name: "", email: "karthi.hifi@gmail.com", maincategory: "", lastupdate: "", imageurl: "", favourites: false, visitedtimes: 0, filecount: 0, lastvisited: "")
+    @Published var isNewFolder : Bool = false
+    @Published var isEditFolder : Bool = false
+    
      var FolderData1: [FolderDataFinal] { // 1
         if self.FolderSearchString.isEmpty {
             self.FolderData = self.FolderDataAll
