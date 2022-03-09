@@ -22,15 +22,19 @@ struct FolderListView: View {
     var FolderData1: [FolderDataFinal] { // 1
         var FolderData : [FolderDataFinal] = []
         if FolderdataAccess.DeletePressed == true {
-            var folderIndex = self.FolderdataAccess.FullData.firstIndex(where: { $0.ID == FolderdataAccess.DeletionID})!
-            print(self.FolderdataAccess.FullData[folderIndex].folder_name,"Bef del",folderIndex)
-            var newFolderData =  self.FolderdataAccess.DeleteFolder(Index: folderIndex)
-            print(self.FolderdataAccess.FullData.count,"After Del")
+            let folderIndex = self.FolderdataAccess.FullData.firstIndex(where: { $0.ID == FolderdataAccess.DeletionID})!
+//            print(self.FolderdataAccess.FullData[folderIndex].folder_name,"Bef del",folderIndex)
+            let newFolderData =  self.FolderdataAccess.DeleteFolder(Index: folderIndex)
+//            print(self.FolderdataAccess.FullData.count,"After Del")
             FolderdataAccess.DeletePressed.toggle()
             return newFolderData
             
         } else if searchText.isEmpty && ( FolderdataAccess.SelectedCategory == "" || FolderdataAccess.SelectedCategory == "All" ) {
             //           self.FolderData = self.FolderDataAll
+            return self.FolderdataAccess.FolderDataAll
+        } else if FolderdataAccess.isNewFolder == true{
+            print("reached new Folder")
+            FolderdataAccess.isNewFolder.toggle()
             return self.FolderdataAccess.FolderDataAll
         } else {
             print(searchText,"text")

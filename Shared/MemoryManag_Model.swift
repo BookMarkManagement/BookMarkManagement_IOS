@@ -60,6 +60,33 @@ class FolderdataAccessories : ObservableObject{
             }
     }
     
+    func EditFolder(FolderDetails : FolderValue){
+        let dummyData = self.FolderDataAll
+//        var catfound : Bool = false
+        let item = FolderDataFinal(category: FolderDetails.maincategory, Items: [FolderDetails])
+        for (index, Folder) in  dummyData.enumerated(){
+            var folderIndex = Folder.Items.firstIndex(where: { $0.ID == FolderDetails.ID})!
+            self.FolderDataAll[ index ].Items[ folderIndex ] = FolderDetails
+        }
+//        if catfound == false {
+//            self.FolderDataAll.append(item)
+//        }
+    }
+    
+    func AddNewFolder(FolderDetails : FolderValue){
+        let dummyData = self.FolderDataAll
+        var catfound : Bool = false
+        let item = FolderDataFinal(category: FolderDetails.maincategory, Items: [FolderDetails])
+        for (index, item) in  dummyData.enumerated(){
+            if item.category == FolderDetails.maincategory {
+                self.FolderDataAll[ index ].Items.append(FolderDetails)
+                catfound.toggle()
+            }
+        }
+        if catfound == false {
+            self.FolderDataAll.append(item)
+        }
+    }
     func GetSearchedItemsbyName(Folder: String)->[FolderDataFinal]{
         var item = FolderDataFinal(category: "", Items: [])
         var FolderData : [FolderDataFinal] = []

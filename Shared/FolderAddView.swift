@@ -11,7 +11,7 @@ struct FolderAddView: View {
     @Environment(\.presentationMode) var presentationMode
 //    @StateObject var FolderdataAccess = FolderdataAccessories()
     var FolderdataAccess = FolderdataAccessories()
-    @State private var FolderData = FolderValue(ID: "", folder_name: "", email: "karthi.hifi@gmail.com", maincategory: "", lastupdate: "", imageurl: "", favourites: false, visitedtimes: 0, filecount: 0, lastvisited: "")
+    @State private var FolderData = FolderValue(ID: "", folder_name: "", email: "karthi.hifi@gmail.com", maincategory: "", lastupdate: "", imageurl: "https://cdn.pixabay.com/photo/2020/11/29/16/00/naruto-5788207_1280.png", favourites: false, visitedtimes: 0, filecount: 0, lastvisited: "")
     
     var body: some View {
         NavigationView {
@@ -21,6 +21,7 @@ struct FolderAddView: View {
                         .onAppear(){
                             if FolderdataAccess.isEditFolder == true {
                                 FolderData.folder_name = FolderdataAccess.NewFolder.folder_name
+                                FolderData.ID = FolderdataAccess.NewFolder.ID
                             }
                         }
                     TextField("Category", text: $FolderData.maincategory)
@@ -61,8 +62,16 @@ struct FolderAddView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                     Button("Save") {
-                        print("Save tapped!")
-                        FolderdataAccess.isNewFolder.toggle()
+                        print(FolderdataAccess.isEditFolder,"Is Edit")
+                        if FolderdataAccess.isEditFolder == true {
+                            FolderdataAccess.EditFolder(FolderDetails: FolderData)
+                            FolderdataAccess.isEditFolder = false
+                        } else{
+                            FolderdataAccess.AddNewFolder(FolderDetails: FolderData)
+                            FolderdataAccess.isNewFolder.toggle()
+                        }
+                        
+                        presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(FolderData.folder_name.isEmpty || FolderData.maincategory.isEmpty)
                 }

@@ -95,7 +95,7 @@ struct ContentView: View {
     
     @available(iOS 15.0, *)
     func loadData() {
-        guard let url = URL(string: "https://5aa7bb4ftrial-dev-contentmanagement-srv.cfapps.eu10.hana.ondemand.com/content-manag/Folder") else {
+        guard let url = URL(string: "https://b8076800trial-dev-contentmanagement-srv.cfapps.us10.hana.ondemand.com/content-manag/Folder") else {
             print("Invalid URL")
             return
         }
