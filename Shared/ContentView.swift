@@ -54,7 +54,8 @@ struct ContentView: View {
                                 }
                         }
 //                        .background(Color("FolderBack"))
-                        .onAppear(perform: loadData)
+//                        .onAppear(perform: loadData)
+                        .onAppear{ loadData(); FolderdataAccess.getCategories()}
 //                        .frame(
 //                            width: geometry.size.width ,
 //                                   height: geometry.size.height
@@ -112,7 +113,7 @@ struct ContentView: View {
                         self.FolderdataAccess.results = self.results
                         self.FolderdataAccess.FullData = self.results
                         self.FolderdataAccess.GetFolderDetails()
-//                        print(self.FolderdataAccess.categories)
+//                        print(self.FolderdataAccess.results,"results")
                     }
                     return
                 }

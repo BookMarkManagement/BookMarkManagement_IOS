@@ -20,6 +20,14 @@ struct FolderValue : Decodable  {
     //    var isActiveEntity, hasActiveEntity, hasDraftEntity: Bool
 }
 
+struct CategoryVH : Decodable{
+    var maincategory : String
+}
+
+struct FolderCategories : Decodable {
+    var value: [CategoryVH]
+}
+
 struct FolderData : Decodable {
     var value: [FolderValue]
 }
@@ -27,6 +35,11 @@ struct FolderData : Decodable {
 struct FolderDataFinal : Decodable {
     var category : String
     var Items : [FolderValue]
+}
+
+struct NewFolderModel: Codable{
+ var   folder_name,email,maincategory, imageurl: String
+    var favourites: Bool
 }
 
 class FolderdataAccessories : ObservableObject{
@@ -41,6 +54,8 @@ class FolderdataAccessories : ObservableObject{
     @Published var EditPressed = false
     @Published var DeletePressed = false
     @Published var DeletionID = ""
+    
+    @Published var FolderCat  = [CategoryVH]()
     
     @Published var NewFolder = FolderValue(ID: "", folder_name: "", email: "karthi.hifi@gmail.com", maincategory: "", lastupdate: "", imageurl: "", favourites: false, visitedtimes: 0, filecount: 0, lastvisited: "")
     @Published var isNewFolder : Bool = false
@@ -86,6 +101,8 @@ class FolderdataAccessories : ObservableObject{
         if catfound == false {
             self.FolderDataAll.append(item)
         }
+        print("Sending Request")
+        SendnewFolderReq()
     }
     func GetSearchedItemsbyName(Folder: String)->[FolderDataFinal]{
         var item = FolderDataFinal(category: "", Items: [])
@@ -170,6 +187,53 @@ class FolderdataAccessories : ObservableObject{
 //        print(FolderData)
     }
     
+    func SendnewFolderReq(){
+        guard let url = URL(string: "https://b8076800trial-dev-contentmanagement-srv.cfapps.us10.hana.ondemand.com/content-manag/Folder") else {
+            print("Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        
+        let newFolder = NewFolderModel(folder_name: "test", email: "test@gmail.com", maincategory: "test", imageurl: "", favourites: true)
+        let jsonData = try? JSONEncoder().encode(newFolder)
+        request.httpBody = jsonData
+        print(request,"reqest")
+        URLSession.shared.dataTask(with: request) {data, response, error in
+            if let error = error {
+                     print("Error took place \(error)")
+                     return
+                 }
+            print(data,"Data asked")
+//            if let response = response as? HTTPURLResponse {
+//              print(response.location) // 200, 404, etc...
+//            }
+        }.resume()
+    }
+    func getCategories(){
+        guard let url = URL(string: "https://b8076800trial-dev-contentmanagement-srv.cfapps.us10.hana.ondemand.com/content-manag/VH_categories") else {
+            print("Invalid URL")
+            return
+        }
+        
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) {data, response, error in
+            if let data = data {
+//                                print(response,"response",data,"Data asked")
+                if let decodedResponse = try? JSONDecoder().decode(FolderCategories.self, from: data) {
+                    DispatchQueue.main.async {
+                        self.FolderCat = decodedResponse.value
+//                        print("categories",self.FolderCat)
+                    }
+                    return
+                }
+            }
+            print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
+        }.resume()
+    }
+    }
     //    func loadData() {
     //        guard let url = URL(string: "https://5aa7bb4ftrial-dev-contentmanagement-srv.cfapps.eu10.hana.ondemand.com/content-manag/Folder")
     //        else {
@@ -194,7 +258,7 @@ class FolderdataAccessories : ObservableObject{
     //            print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
     //        }.resume()
     //    }
-}
+//}
 
 class Theme {
     static func navigationBarColors(background : UIColor?,

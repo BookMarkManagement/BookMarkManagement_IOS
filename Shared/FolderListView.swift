@@ -137,6 +137,10 @@ struct FolderListView: View {
 //            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button("Add Category") {
+                        print("New Folder")
+//                        self.FolderdataA ccess.EditPressed.toggle()
+                    }
                     Button("Add") {
                         print("Edit tapped!")
                         self.FolderdataAccess.isNewFolder.toggle()

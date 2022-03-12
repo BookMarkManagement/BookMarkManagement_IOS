@@ -24,12 +24,23 @@ struct FolderAddView: View {
                                 FolderData.ID = FolderdataAccess.NewFolder.ID
                             }
                         }
-                    TextField("Category", text: $FolderData.maincategory)
+                    Picker("Select Category", selection: $FolderData.maincategory, content: {
+                        ForEach(FolderdataAccess.FolderCat, id: \.maincategory, content: { item in
+                            Text(item.maincategory)
+                                  })
+                              })
+//                        .pickerStyle(.wheel)
                         .onAppear(){
                             if FolderdataAccess.isEditFolder == true {
                                 FolderData.maincategory = FolderdataAccess.NewFolder.maincategory
                             }
                         }
+//                    TextField("Category", text: $FolderData.maincategory)
+//                        .onAppear(){
+//                            if FolderdataAccess.isEditFolder == true {
+//                                FolderData.maincategory = FolderdataAccess.NewFolder.maincategory
+//                            }
+//                        }
                     
                 }
                 Section(header: Text("Others")) {
